@@ -1,18 +1,18 @@
 import { createClient } from 'redis';
-import logger from './logger';
 import config from '../config';
+import logger from './logger';
 
-const redisClinet = createClient({
+let redisClient = createClient({
   url: config.redis.url
 });
 
-redisClinet.on('error', (err) => logger.info('Redis Error', err));
-redisClinet.on('connect', () => logger.info('Redis Connected'));
+redisClient.on('error', (err) => logger.info('RedisError', err));
+redisClient.on('connect', (err) => logger.info('Redis connected'));
 
 const connect = async (): Promise<void> => {
-  return await redisClinet.connect();
+  await redisClient.connect();
 };
 
-export const RedisClinet = {
+export const RedisClient = {
   connect
 };
